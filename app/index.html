@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="./css/style.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Front Kit</title>
+  </head>
+  <body>
+    <main>
+      <div class="reader">
+
+        <div class="reader__toolbar">
+          <button id="prev">prev</button>
+          <button id="next">next</button>
+        </div>
+
+        <div class="reader__container"></div>
+
+      </div>
+    </main>
+    <script src="./js/app.min.js" charset="utf-8"></script>
+
+    <script>
+      initPDFViewer('./img/sample.pdf', {
+        next: '#next',
+        prev: '#prev',
+        container: '.reader__container'
+      })
+    </script>
+  </body>
+</html>
