@@ -25,6 +25,12 @@
       initPDFViewer('./img/sample.pdf', {
         next: '#next',
         prev: '#prev',
+        pageMode: 2,
+        breakpoints: {
+          750: {
+            pageMode: 1
+          }
+        },
         container: '.reader__container'
       })
     </script>

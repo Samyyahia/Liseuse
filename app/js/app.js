@@ -10,13 +10,16 @@ import * as pdfLib from  'pdfjs-dist/build/pdf'
         next: null,
         prev: null,
         init: function () {
-            // pdfLib.GlobalWorkerOptions.workerSrc = './js/pdf.worker.min.js';
+            pdfLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js'
 
             window.initPDFViewer = (url, config) => {
                 let loader = pdfLib.getDocument(url)
 
                 if (config.container)
                     this.container = document.querySelector(config.container)
+
+                if (config.pageMode)
+                    this.pageMode = parseInt(config.pageMode)
 
                 if (config.next)
                     this.next = document.querySelector(config.next)
@@ -31,11 +34,37 @@ import * as pdfLib from  'pdfjs-dist/build/pdf'
                     this.initPager()
                     this.render()
                 })
+
+
+                if (config.breakpoints) {
+                    const handleResize = () => {
+                        const bps = config.breakpoints
+                        const keys = Object.keys(config.breakpoints)
+
+                        let bp
+
+                        keys.forEach((k) => {
+                            if (window.innerWidth <= parseInt(k))
+                                bp = bps[k]
+                            else
+                                bp = config
+                        })
+
+                        if (bp.pageMode !== this.pageMode) {
+                            this.pageMode = bp.pageMode
+
+                            this.page = 0;
+                            this.render()
+                        }
+                    }
+
+                    handleResize()
+                    window.addEventListener('resize', () => handleResize())
+                }
             }
         },
 
-        // INIT FUNC
-
+        // INIT FUNC*
         initPager: function () {
             if (this.next)
                 this.next.addEventListener('click', (e) => this.handleClick(e, true))
